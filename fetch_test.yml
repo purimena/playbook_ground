@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: get /etc/passwd
+      ansible.builtin.command:
+        cmd: cat/etc/passwd
+      register: res_passwd
+
+    - name: display /etc/passwd
+      ansible.builtin.debug:
+        var: res_passwd.stdout_lines
+
+    - name: fetch
+      ansible.builtin.fact_fetch:
+        src: /etc/passwd
+        dest: /tmp/
+        flat: yes
