@@ -4,7 +4,7 @@
   tasks:
     - name: get /etc/passwd
       ansible.builtin.command:
-        cmd: cat/etc/passwd
+        cmd: cat /etc/passwd
       register: res_passwd
 
     - name: display /etc/passwd
@@ -12,7 +12,7 @@
         var: res_passwd.stdout_lines
 
     - name: fetch
-      ansible.builtin.fact_fetch:
+      ansible.builtin.fetch:
         src: /etc/passwd
         dest: /tmp/
         flat: yes
