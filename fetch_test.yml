@@ -10,11 +10,15 @@
     - name: display /etc/passwd
       ansible.builtin.debug:
         var: res_passwd.stdout_lines
+    
+    - name: set fact
+      ansible.builtin.set_fact:
+        res_passwd: "{{ res_passwd.stdout }}"
 
 - hosts: vm
   tasks:
     - name: copy file
       ansible.builtin.copy:
         # content: "{{ res_passwd.stdout }}"
-        content: "{{ hostvars['localhost']['res_passwd.stdout'] }}"
+        content: "{{ hostvars['localhost']['res_passwd'] }}"
         dest: /tmp/passwd 
