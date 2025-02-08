@@ -11,8 +11,9 @@
       ansible.builtin.debug:
         var: res_passwd.stdout_lines
 
-    - name: fetch
-      ansible.builtin.fetch:
-        src: /etc/passwd
-        dest: /tmp/
-        flat: yes
+- hosts: vm
+  tasks:
+    - name: copy file
+      ansible.builtin.copy:
+        content: "{{ res_passwd.stdout }}"
+        dest: /tmp/passwd 
