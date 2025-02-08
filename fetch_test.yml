@@ -15,5 +15,6 @@
   tasks:
     - name: copy file
       ansible.builtin.copy:
-        content: "{{ res_passwd.stdout }}"
+        # content: "{{ res_passwd.stdout }}"
+        content: "{{ hostvars['localhost']['res_passwd.stdout'] }}"
         dest: /tmp/passwd 
