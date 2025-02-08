@@ -1,24 +1,14 @@
 ---
-- hosts: localhost
-  connection: local
+- hosts: vm # 情報を取得したいVMのグループを指定
+  gather_facts: false
   tasks:
-    - name: get /etc/passwd
+    - name: get hostname
       ansible.builtin.command:
-        cmd: cat /etc/passwd
-      register: res_passwd
+        cmd: hostname
+      register: res_hostname
 
-    - name: display /etc/passwd
-      ansible.builtin.debug:
-        var: res_passwd.stdout_lines
-    
-    - name: set fact
-      ansible.builtin.set_fact:
-        res_passwd: "{{ res_passwd.stdout }}"
-
-- hosts: vm
-  tasks:
-    - name: copy file
+    - name: copy file #取得した情報をファイルに書き出すためのタスク
       ansible.builtin.copy:
-        # content: "{{ res_passwd.stdout }}"
-        content: "{{ hostvars['localhost']['res_passwd'] }}"
-        dest: /tmp/passwd 
+        content: "{{ res_hostname.stdout }}"
+        dest: /tmp/{{ inventory_hostname }}.txt
+      delegate_to: controller # EEではなくコントローラーに保存するために指定
