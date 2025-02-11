@@ -1,0 +1,11 @@
+---
+- hosts: all
+  tasks:
+    - name: get ip address
+      ansible.builtin.command: 
+        cmd: curl ifconfig.me
+      register: res_ip_address
+
+    - name: display ip address
+      ansible.builtin.debug:
+        msg: "{{ res_ip_address.stdout }}"
